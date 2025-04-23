@@ -1,0 +1,4 @@
+## Append samples of your project ##
+resources:
+- graph_v1alpha1_dependencygraph.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples
