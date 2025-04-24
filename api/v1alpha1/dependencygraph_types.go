@@ -17,6 +17,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"time"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -29,10 +31,13 @@ type GraphNode struct {
 
 // GraphEdge represents a connection between two nodes (e.g., HTTP call, volume mount).
 type GraphEdge struct {
-	From  string `json:"from"`
-	To    string `json:"to"`
-	Type  string `json:"type"`            // e.g., http, env, mount
-	Route string `json:"route,omitempty"` // optional route info (for GlooRoutes etc.)
+	From      string `json:"from"`
+	To        string `json:"to"`
+	Type      string `json:"type"`                // e.g., http, env, mount
+	Route     string `json:"route,omitempty"`     // optional route info (for GlooRoutes etc.)
+	Direction string `json:"direction,omitempty"` // east-west or north-south
+	Violation bool   `json:"violation,omitempty"` // if this edge crosses env or namespace boundaries
+	Reason    string `json:"reason,omitempty"`    // explanation like "cross-env" or "cross-namespace"
 }
 
 // DependencyGraphSpec defines the desired state of the graph.
@@ -69,4 +74,8 @@ type DependencyGraphList struct {
 
 func init() {
 	SchemeBuilder.Register(&DependencyGraph{}, &DependencyGraphList{})
+}
+
+func LastSyncedTimeNow() metav1.Time {
+	return metav1.NewTime(time.Now().UTC())
 }

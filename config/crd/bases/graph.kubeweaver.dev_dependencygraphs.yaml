@@ -44,7 +44,11 @@ spec:
                   description: GraphEdge represents a connection between two nodes
                     (e.g., HTTP call, volume mount).
                   properties:
+                    direction:
+                      type: string
                     from:
+                      type: string
+                    reason:
                       type: string
                     route:
                       type: string
@@ -52,6 +56,8 @@ spec:
                       type: string
                     type:
                       type: string
+                    violation:
+                      type: boolean
                   required:
                   - from
                   - to
